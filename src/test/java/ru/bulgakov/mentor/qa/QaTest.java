@@ -1,9 +1,9 @@
-package ru.bulgakov.qa;
+package ru.bulgakov.mentor.qa;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import ru.bulgakov.pages.*;
+import ru.bulgakov.mentor.pages.*;
 import ru.bulgakov.twitchPages.TwitchMainPage;
 
 import static com.codeborne.selenide.Selenide.*;
