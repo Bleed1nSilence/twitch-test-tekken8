@@ -1,5 +1,22 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version "4.3.0"
+}
+
+def allureVersion = "2.25.0"
+
+allure {
+    report {
+        version.set(allureVersion)
+    }
+    adapter {
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set(allureVersion)
+            }
+        }
+    }
 }
 
 group = 'org.example'
@@ -10,6 +27,8 @@ repositories {
 }
 
 dependencies {
+    testImplementation "io.qameta.allure:allure-junit5:$allureVersion"
+    testImplementation "io.qameta.allure:allure-selenide:$allureVersion"
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     testImplementation 'com.codeborne:selenide:7.18.2'
     testImplementation 'net.datafaker:datafaker:2.7.0'
@@ -17,4 +36,44 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+// Таск для запуска только тестов с тегом "small"
+tasks.register('smallTests', Test) {
+    useJUnitPlatform {
+        includeTags 'small'
+    }
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+// Таск для запуска только тестов с тегом "big"
+tasks.register('bigTests', Test) {
+    useJUnitPlatform {
+        includeTags 'big'
+    }
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+// Таск для запуска только позитивных тестов
+tasks.register('positiveTests', Test) {
+    useJUnitPlatform {
+        includeTags 'POSITIVE'
+    }
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+// Таск для запуска только негативных тестов (на будущее, когда добавишь)
+tasks.register('negativeTests', Test) {
+    useJUnitPlatform {
+        includeTags 'NEGATIVE'
+    }
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
