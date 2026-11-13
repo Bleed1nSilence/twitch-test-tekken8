@@ -4,10 +4,8 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.$;
 
 public class TwitchGamePage {
-    public TwitchGamePage gameNameShouldBeTekken8(){
-        $(".hlnHjk h1").shouldHave(text("Tekken 8"));
-
+    public TwitchGamePage gameNameShouldBe(String expectedGameName) {
+        $(".hlnHjk h1").shouldHave(text(expectedGameName));
         return this;
     }
-
 }
