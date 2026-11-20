@@ -1,5 +1,6 @@
 package ru.bulgakov.mentor.qa;
 
+import io.qameta.allure.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -11,10 +12,15 @@ import ru.bulgakov.webshop.TestBase;
 
 import static com.codeborne.selenide.Selenide.*;
 
+@Epic("Домашнее задание")
+@Feature("Проверки веб-сайтов")
 public class QaTest extends TestBase {
 
     @Test
     @DisplayName("Проверить, что цена обучения - 47 000 рублей")
+    @Severity(SeverityLevel.CRITICAL)
+    @Owner("Bleed1nSilence")
+    @Link("TASK-1")
     @Tag("POSITIVE")
     @Tag("big")
     void mentoringPriceShouldBe47000Test() {
@@ -31,13 +37,12 @@ public class QaTest extends TestBase {
 
 
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "TEKKEN 8",
-            "Street Fighter 6",
-            "Mortal Kombat 1"
-    })
+    @ParameterizedTest(name = "Игра: {0}")
+    @ValueSource(strings = {"TEKKEN 8", "Street Fighter 6", "Mortal Kombat 1"})
     @DisplayName("Проверить, что на странице игры указано верное название")
+    @Severity(SeverityLevel.NORMAL)
+    @Owner("Bleed1nSilence")
+    @Link("TASK-2")
     @Tag("POSITIVE")
     @Tag("small")
     void twitchSearchShouldFindGameTest(String expectedGameName){
@@ -56,13 +61,12 @@ public class QaTest extends TestBase {
                 .gameNameShouldBe(expectedGameName);
     }
 
-    @ParameterizedTest
-    @ValueSource(strings = {
-            "TEKKEN 9",
-            "Street Fighter 8",
-            "Mortal Kombat Y"
-    })
-    @DisplayName("Проверить, что на странице игры указано неверное название")
+    @ParameterizedTest(name = "Игра: {0}")
+    @ValueSource(strings = {"TEKKEN 9", "Street Fighter 8", "Mortal Kombat Y"})
+    @DisplayName("Проверить, что при поиске несуществующей игры ничего не найдено")
+    @Severity(SeverityLevel.MINOR)
+    @Owner("Bleed1nSilence")
+    @Link("TASK-3")
     @Tag("NEGATIVE")
     @Tag("small")
     void twitchSearchShouldFindIncorrectGameTest(String expectedGameName){
@@ -72,8 +76,7 @@ public class QaTest extends TestBase {
         open("https://www.twitch.tv/", TwitchMainPage.class)
                 .search(expectedGameName)
                 .clickSearch()
-                .clickGameArt(expectedGameName)
-                .gameNameShouldBe(expectedGameName);
+                .checkGameArtIsAbsent(expectedGameName);
     }
 }
 

@@ -1,7 +1,9 @@
 package ru.bulgakov.webshop.test;
 
+import io.qameta.allure.*;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.bulgakov.webshop.TestBase;
 import ru.bulgakov.webshop.pages.*;
@@ -15,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.bulgakov.webshop.config.Config.WEB_SHOP_REGISTRATION_URL;
 import static ru.bulgakov.webshop.config.Config.WEB_SHOP_URL;
 
+@Epic("Покупки")
+@Feature("Корзина")
 public class CartTest extends TestBase {
     private static final Faker faker = new Faker();
     private final AuthSteps authSteps = new AuthSteps();
@@ -25,6 +29,11 @@ public class CartTest extends TestBase {
     }
 
     @Test
+    @DisplayName("Добавление товара в корзину с изменением количества и процессора")
+    @Severity(SeverityLevel.BLOCKER)
+    @Owner("Bleed1nSilence")
+    @Link("TASK-123")
+    @Story("Добавление товара")
     void addItemToCartTest() {
         WsWelcomePage welcomePage = open(WEB_SHOP_URL, WsWelcomePage.class);
         WsCatalogPage catalogPage = welcomePage

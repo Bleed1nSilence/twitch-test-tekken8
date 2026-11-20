@@ -14,10 +14,8 @@ import static ru.bulgakov.webshop.config.Config.WEB_SHOP_URL;
 public class RegistrationTest extends TestBase {
     private  static final Faker faker = new Faker();
 
-
-
     @Test
-    @Owner("i.sidoruk")
+    @Owner("Bleed1nSilence")
     @Tag("positive")
     @Severity(SeverityLevel.CRITICAL)
     @Epic("Авторизация")
@@ -38,7 +36,7 @@ public class RegistrationTest extends TestBase {
             .enterLastName(faker.name().lastName())
             .enterEmail(email)
             .enterPassword(password)
-            .confirmPassword("dsfdfsdf")
+            .confirmPassword(password)
             .submitRegistration()
             .checkRegistrationCompleted()
             .checkUserLoggedIn(email);

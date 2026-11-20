@@ -1,6 +1,7 @@
 package ru.bulgakov.webshop.test;
 
 import com.codeborne.selenide.Configuration;
+import io.qameta.allure.*;
 import net.datafaker.Faker;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -15,12 +16,15 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 import static ru.bulgakov.webshop.config.Config.*;
 
+@Epic("Авторизация")
+@Feature("Логин")
 public class LoginTest extends TestBase {
     private static final Faker faker = new Faker();
     private String email;
     private String password;
 
     @Nested
+    @DisplayName("Позитивные тесты")
     public class PositiveTests {
         @BeforeEach
         void beforeEach() {
@@ -34,11 +38,16 @@ public class LoginTest extends TestBase {
                             email,
                             password)
                     .checkUserLoggedIn(email);
-
             clearBrowserCookies();
             clearBrowserLocalStorage();
         }
+
         @Test
+        @DisplayName("Успешный вход с валидными данными")
+        @Severity(SeverityLevel.CRITICAL)
+        @Owner("Bleed1nSIlence")
+        @Link("TASK-121")
+        @Story("Вход в систему")
         void succesLoginTest() {
             open(WEB_SHOP_URL, WsWelcomePage.class)
                     .openLogin()
@@ -56,6 +65,11 @@ public class LoginTest extends TestBase {
 
        @ParameterizedTest(name = "Авторизация с невалидным email: {0}")
        @CsvFileSource(resources = "/email.csv")
+       @DisplayName("Проверка валидации невалидного email")
+       @Severity(SeverityLevel.NORMAL)
+       @Owner("Bleed1nSilence")
+       @Link("TASK-122")
+       @Story("Валидация полей")
     void invalidEmailLoginTest(String email) {
            open(WEB_SHOP_LOGIN_URL, WsLoginPage.class)
                    .enterEmail(email)
